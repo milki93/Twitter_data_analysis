@@ -33,6 +33,7 @@ class TweetDfExtractor:
     def __init__(self, tweets_list):
         
         self.tweets_list = tweets_list
+        
 
     # an example function
     def find_statuses_count(self)->list:
@@ -51,18 +52,36 @@ class TweetDfExtractor:
         return self.tweets_list['created_at']
 
     def find_source(self)->list:
-        source = 
-
+        try:
+            source = self.tweets_list['source']
+        except TypeError:
+            source = ''
+        
         return source
 
     def find_screen_name(self)->list:
-        screen_name = 
+        try:
+            screen_name = self.tweets_list['user']['screen_name']
+        except TypeError:
+            screen_name = ''
+        
+        return screen_name
 
     def find_followers_count(self)->list:
-        followers_count = 
+        try:
+            followers_count = self.tweets_list['user']['followers_count']
+        except TypeError:
+            followers_count = ''
+        
+        return followers_count
 
     def find_friends_count(self)->list:
-        friends_count = 
+        try:
+            friends_count = self.tweets_list['user']['friends_count']
+        except TypeError:
+            friends_count = ''
+        
+        return friends_count
 
     def is_sensitive(self)->list:
         try:
@@ -74,11 +93,11 @@ class TweetDfExtractor:
 
     def find_favourite_count(self)->list:
         try:
-            favourite_count = self.tweets_list['favorite_count']
+            fav_count = self.tweets_list['favorite_count']
         except TypeError:
-            favourite_count = ''
+            fav_count = ''
         
-        return favourite_count
+        return fav_count
     
     def find_retweet_count(self)->list:
         try:
@@ -98,11 +117,11 @@ class TweetDfExtractor:
 
     def find_mentions(self)->list:
         try:
-            mentions = self.tweets_list['entities']['user_mentions']
+            mentions =[i['entities']['user_mentions'] for i in self.tweets_list]
         except TypeError:
-            user_mentions = ''
+            mentions = ''
         
-        return user_mentions
+        return mentions
 
 
     def find_location(self)->list:
