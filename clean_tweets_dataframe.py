@@ -41,6 +41,9 @@ class Clean_Tweets:
         favorite_count etc to numbers
         """
         df['polarity'].astype(int)
+        df['subjectivity'].astype(int)
+        df['retweet_count'].astype(int)
+        df['fav_count'].astype(int)
         
         return df
     
@@ -49,6 +52,6 @@ class Clean_Tweets:
         remove non english tweets from lang
         """
         
-        df = df[df.lang=English]
+        df = df[df['lang']=='English']
         
         return df
