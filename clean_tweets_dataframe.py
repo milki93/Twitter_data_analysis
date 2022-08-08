@@ -29,7 +29,7 @@ class Clean_Tweets:
         """
         convert column to datetime
         """
-        
+        pd.to_datetime(df['created_at'])
         
         df = df[df['created_at'] >= '2020-12-31' ]
         
@@ -40,10 +40,7 @@ class Clean_Tweets:
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        df['polarity'] = pd.----
-        
-        ----
-        ----
+        df['polarity'].astype(int)
         
         return df
     
@@ -52,6 +49,6 @@ class Clean_Tweets:
         remove non english tweets from lang
         """
         
-        df = ----
+        df = 
         
         return df
