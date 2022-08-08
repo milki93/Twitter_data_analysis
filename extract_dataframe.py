@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import re
 from textblob import TextBlob
 
 
@@ -37,28 +38,39 @@ class TweetDfExtractor:
 
     # an example function
     def find_statuses_count(self)->list:
-        try:
-            statuses_count = self.tweets_list['user']['statuses_count']
-        except TypeError:
-            statuses_count = ''
         
+
+        statuses_count =[i['user']['statuses_count'] for i in self.tweets_list]
         return statuses_count
+        
         
     def find_full_text(self)->list:
         text =[i for i in self.tweets_list]
+        new_text = TextBlob(text)
+        new_text.sentiment
+        new_text.sentiment.polarity
         return text
     
-    def find_sentiments(self, text)->list:
-        
-        return polarity, self.subjectivity
+    def find_sentiments(self, text) -> list:
+        polarity = []
+        subjectivity = []
 
-    def find_created_time(self)->list:
-       
-        return self.tweets_list['created_at']
+        for i in text:
+            if (i):
+                polarity.append(TextBlob(str(i)).polarity)
+                subjectivity.append(TextBlob(str(i)).subjectivity)
+
+        return polarity, subjectivity
+
+    def find_created_time(self) -> list:
+        created_at = [i.get('created_at', None) for i in self.tweets_list]
+
+        return created_at
 
     def find_source(self)->list:
         try:
-            source = self.tweets_list['source']
+           
+            source =[i['source'] for i in self.tweets_list]
         except TypeError:
             source = ''
         
@@ -66,7 +78,8 @@ class TweetDfExtractor:
 
     def find_screen_name(self)->list:
         try:
-            screen_name = self.tweets_list['user']['screen_name']
+
+          screen_name =[i['user']['screen_name'] for i in self.tweets_list]
         except TypeError:
             screen_name = ''
         
@@ -74,7 +87,8 @@ class TweetDfExtractor:
 
     def find_followers_count(self)->list:
         try:
-            followers_count = self.tweets_list['user']['followers_count']
+           
+          followers_count =[i['user']['followers_count'] for i in self.tweets_list]
         except TypeError:
             followers_count = ''
         
@@ -82,7 +96,8 @@ class TweetDfExtractor:
 
     def find_friends_count(self)->list:
         try:
-            friends_count = self.tweets_list['user']['friends_count']
+            
+          friends_count =[i['user']['friends_count'] for i in self.tweets_list]
         except TypeError:
             friends_count = ''
         
@@ -98,7 +113,8 @@ class TweetDfExtractor:
 
     def find_favourite_count(self)->list:
         try:
-            fav_count = self.tweets_list['favorite_count']
+            
+             fav_count =[i['favorite_count']for i in self.tweets_list]  
         except TypeError:
             fav_count = ''
         
@@ -106,7 +122,7 @@ class TweetDfExtractor:
     
     def find_retweet_count(self)->list:
         try:
-            retweet_count = self.tweets_list['retweet_count']
+             retweet_count =[i['retweet_count']for i in self.tweets_list]
         except TypeError:
             retweet_count = ''
         
@@ -114,7 +130,7 @@ class TweetDfExtractor:
 
     def find_hashtags(self)->list:
         try:
-            hashtags = self.tweets_list['entities']['hashtags']
+            hashtags =[i['entities']['hashtags'] for i in self.tweets_list]
         except TypeError:
             hashtags = ''
         
@@ -179,3 +195,6 @@ if __name__ == "__main__":
     tweet_df = tweet.get_tweet_df() 
 
     # use all defined functions to generate a dataframe with the specified columns above
+
+
+
