@@ -13,8 +13,6 @@ def DBConnect(dbName=None):
     Returns
     -------
     """
-    # conn = mysql.connect(host='localhost', user='root', password=os.getenv('mysqlPass'),
-    #                      database=dbName, buffered=True)
 
     conn = mysql.connect(host='localhost', user='root', password=os.getenv('DB_PASS'),
                          database=dbName, buffered=True)
@@ -60,7 +58,7 @@ def createTables(dbName: str) -> None:
     -------
     """
     conn, cur = DBConnect(dbName)
-    sqlFile = 'schema.sql'
+    sqlFile = 'db_schema.sql'
     fd = open(sqlFile, 'r')
     readSqlFile = fd.read()
     fd.close()
@@ -98,11 +96,7 @@ def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
     df['user_mentions'] = df['user_mentions'].fillna(" ")
 
     df['retweet_count'] = df['retweet_count'].fillna(0)
-    # try:
-    #     df = df.drop(["user_mentions"],
-    #                  axis='columns')
-    # except KeyError as e:
-    #     print("Error:", e)
+   
 
     return df
 
@@ -196,12 +190,12 @@ def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.
 
 
 if __name__ == "__main__":
-    createDB(dbName='tweets')
-    emojiDB(dbName='tweets')
-    createTables(dbName='tweets')
+    createDB(dbName='tweet')
+    emojiDB(dbName='tweet')
+    createTables(dbName='tweet')
 
-    df = pd.read_csv('../cleaned_tweet_data.csv')
+    df = pd.read_csv('cleaned_fintech_data.csv')
     df.info()
 
-    insert_to_tweet_table(dbName='tweets', df=df,
+    insert_to_tweet_table(dbName='tweet', df=df,
                           table_name='TweetInformation')

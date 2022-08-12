@@ -40,8 +40,8 @@ class Dashboard:
     @st.cache()
     def load_data(self):
         print("Data loaded")
-        query = "select * from TweetInformation"
-        df = db_execute_fetch(query, dbName="tweets", rdf=True)
+        query = "select * from TwitterInformation"
+        df = db_execute_fetch(query, dbName="tweet", rdf=True)
         return df.copy(deep=True)
 
     def barChart(self, data, X, Y):
